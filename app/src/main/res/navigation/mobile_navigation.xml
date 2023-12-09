@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.example.mobapputb.ui.home.HomeFragment"
+        android:name="com.example.mobapputb.ui.notes.NotesFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_notes" />
 
     <fragment
         android:id="@+id/navigation_weather"
