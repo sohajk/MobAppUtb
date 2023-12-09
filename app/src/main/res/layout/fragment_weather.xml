@@ -13,49 +13,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_margin="20dp"
         tools:context=".MainActivity">
 
         <EditText
             android:id="@+id/editTextNumberLatitude"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:ems="10"
             android:inputType="numberDecimal"
-            tools:layout_editor_absoluteX="95dp"
-            tools:layout_editor_absoluteY="63dp"
-            android:text="@{String.valueOf(viewModel.latitude)}"/>
+            android:text="@{String.valueOf(viewModel.latitude)}" />
 
         <EditText
             android:id="@+id/editTextNumberLongitude"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:ems="10"
             android:inputType="numberDecimal"
-            tools:layout_editor_absoluteX="98dp"
-            tools:layout_editor_absoluteY="173dp"
-            android:text="@{String.valueOf(viewModel.longitude)}"/>
+            android:text="@{String.valueOf(viewModel.longitude)}" />
 
         <Button
             android:id="@+id/buttonLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get GPS location"
-            android:onClick="@{() -> viewModel.getLocation()}"/>
+            android:layout_marginBottom="20dp"
+            android:onClick="@{() -> viewModel.getLocation()}"
+            android:text="Get GPS location" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/buttonWeatherData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Get Meteo data"
+            android:layout_marginBottom="10dp"
             android:onClick="@{() -> viewModel.getWeatherData()}"
-            tools:layout_editor_absoluteX="162dp"
-            tools:layout_editor_absoluteY="269dp" />
+            android:text="Get Meteo data" />
 
         <TextView
-            android:id="@+id/txtLabel"
-            android:layout_width="218dp"
-            android:layout_height="47dp"
+            android:id="@+id/labelStatusMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="@{ viewModel.statusMsg }" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewWeatherData"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:context=".ui.weather.WeatherFragment"
+            tools:listitem="@layout/item_weather_data" />
 
     </LinearLayout>
 </layout>

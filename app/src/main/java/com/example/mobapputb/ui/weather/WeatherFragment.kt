@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.mobapputb.MainActivity
+import com.example.mobapputb.R
 import com.example.mobapputb.databinding.FragmentWeatherBinding
+import com.example.mobapputb.viewAdapters.WeatherDataAdapter
 
 class WeatherFragment : Fragment() {
 
@@ -30,6 +33,17 @@ class WeatherFragment : Fragment() {
         // Bind the ViewModel to the layout
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        // Set up RecyclerView and adapter
+        val view = inflater.inflate(R.layout.fragment_weather, container, false)
+
+        val myAdapter = WeatherDataAdapter(viewModel.weatherAdapterData.value!!)
+        binding.recyclerViewWeatherData.adapter = myAdapter
+
+        // Update the adapter with the new list
+        viewModel.weatherAdapterData.observe(viewLifecycleOwner, Observer { newList ->
+            binding.recyclerViewWeatherData.adapter = WeatherDataAdapter(newList)
+        })
 
         checkLocationPermission()
 
