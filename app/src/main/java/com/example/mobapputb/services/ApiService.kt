@@ -1,0 +1,19 @@
+package com.example.mobapputb.services
+
+import com.example.mobapputb.models.WeatherDataModel
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface ApiService {
+    companion object {
+        const val WEATHER_PACK = "v1/forecast"
+    }
+
+    @GET(WEATHER_PACK)
+    suspend fun getWeatherPack (
+        @Query("latitude") latitude: Float,
+        @Query("longitude") longitude: Float,
+        @Query("hourly") temperature: String
+    ) : Response<WeatherDataModel>
+}
