@@ -7,31 +7,43 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.location.Location
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.mobapputb.repositories.WeatherRepository
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class WeatherViewModel(application: Application) : ViewModel() {
+class WeatherViewModel(private val application: Application, private val repository: WeatherRepository) : ViewModel() {
 
     private val context: Context = application.applicationContext
     private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application)
     private val _currentLocation = MutableLiveData<Location>()
     private val _latitude = MutableLiveData<Float>().apply { value = 0f }
     private val _longitude = MutableLiveData<Float>().apply { value = 0f }
-
-    private val _gps = MutableLiveData<String>().apply { value = "---" }
+    private val _statusMsg = MutableLiveData<String>().apply { value = "" }
 
     val latitude: LiveData<Float> get() = _latitude
     val longitude: LiveData<Float> get() = _longitude
+    val statusMsg: LiveData<String> get() = _statusMsg
 
-    val gps: LiveData<String> get() = _gps
-
-    fun updateTextViewValue() {
-        _gps.value = _latitude.value.toString() + ", " + _longitude.value.toString()
+    fun getWeatherData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                _statusMsg.value = "Loading"
+                val result = repository.getWeatherPack(_latitude.value!!, _longitude.value!!, true, true, true)
+                _statusMsg.value = ""
+            } catch (e: Exception) {
+                Log.e("WeatherError",e.message!!)
+                _statusMsg.value = "Error when requesting weather data"
+            }
+        }
     }
 
     fun getLocation() {

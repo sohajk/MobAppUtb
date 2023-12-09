@@ -11,14 +11,16 @@ class WeatherRepository (private val apiService: ApiService) {
 
         if (temperature) {
             hourlyList.add("temperature_2m")
-        } else if (precipProb) {
+        }
+        if (precipProb) {
             hourlyList.add("precipitation_probability")
-        } else if (visibility) {
+        }
+        if (visibility) {
             hourlyList.add("visibility")
         }
 
-        var houyrly = hourlyList.joinToString(separator = ",")
-        val response = apiService.getWeatherPack(latitude, longitude, houyrly)
+        var hourly = hourlyList.joinToString(separator = ",")
+        val response = apiService.getWeatherPack(latitude, longitude, hourly)
 
         if(response.isSuccessful) {
             return response.body()

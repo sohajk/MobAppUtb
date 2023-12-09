@@ -12,10 +12,12 @@ import com.example.mobapputb.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    lateinit var MyApp: MyApplication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        MyApp = application as MyApplication
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

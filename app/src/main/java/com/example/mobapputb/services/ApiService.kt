@@ -14,6 +14,6 @@ interface ApiService {
     suspend fun getWeatherPack (
         @Query("latitude") latitude: Float,
         @Query("longitude") longitude: Float,
-        @Query("hourly") temperature: String
+        @Query("hourly") hourly: String
     ) : Response<WeatherDataModel>
 }

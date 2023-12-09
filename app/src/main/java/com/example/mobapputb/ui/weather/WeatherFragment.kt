@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.mobapputb.MainActivity
 import com.example.mobapputb.databinding.FragmentWeatherBinding
 
 class WeatherFragment : Fragment() {
@@ -20,8 +21,11 @@ class WeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val mainActivity = requireActivity() as MainActivity
+        val repository = mainActivity.MyApp.weatherRepository
+
         binding = FragmentWeatherBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this, WeatherViewModelFactory(requireActivity().application))[WeatherViewModel::class.java]
+        viewModel = ViewModelProvider(this, WeatherViewModelFactory(requireActivity().application, repository))[WeatherViewModel::class.java]
 
         // Bind the ViewModel to the layout
         binding.viewModel = viewModel
