@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.mobapputb.ui.weather.WeatherViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+        <EditText
+            android:id="@+id/editTextNumberLatitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            tools:layout_editor_absoluteX="95dp"
+            tools:layout_editor_absoluteY="63dp"
+            android:text="@{String.valueOf(viewModel.latitude)}"/>
+
+        <EditText
+            android:id="@+id/editTextNumberLongitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            tools:layout_editor_absoluteX="98dp"
+            tools:layout_editor_absoluteY="173dp"
+            android:text="@{String.valueOf(viewModel.longitude)}"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button"
+            android:onClick="@{() -> viewModel.updateTextViewValue()}"
+            tools:layout_editor_absoluteX="162dp"
+            tools:layout_editor_absoluteY="269dp" />
+
+        <Button
+            android:id="@+id/buttonLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Get GPS location"
+            android:onClick="@{() -> viewModel.getLocation()}"/>
+
+        <TextView
+            android:id="@+id/txtLabel"
+            android:layout_width="218dp"
+            android:layout_height="47dp"
+            android:text="@{ viewModel.gps }" />
+
+    </LinearLayout>
+</layout>
