@@ -2,4 +2,6 @@
     <string name="app_name">MobAppUtb</string>
     <string name="title_home">Home</string>
     <string name="title_weather">Weather check</string>
+    <string name="button_add_note">+ Add a new note</string>
+    <string name="button_back_to_notes">Back to notes list</string>
 </resources>

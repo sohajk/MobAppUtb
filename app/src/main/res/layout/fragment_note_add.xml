@@ -13,11 +13,11 @@
         android:padding="20dp">
 
         <Button
-            android:id="@+id/buttonAddNote"
+            android:id="@+id/buttonNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="@string/button_add_note" />
+            android:text="@string/button_back_to_notes" />
 
     </LinearLayout>
 </layout>
