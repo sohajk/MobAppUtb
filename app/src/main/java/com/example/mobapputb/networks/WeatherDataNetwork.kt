@@ -1,4 +1,4 @@
-package com.example.mobapputb.models
+package com.example.mobapputb.networks
 
 import com.google.gson.annotations.SerializedName
 

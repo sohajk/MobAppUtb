@@ -52,14 +52,14 @@ class WeatherViewModel(private val application: Application, private val reposit
 
                 if (result != null) {
                     val dataList = mutableListOf<WeatherDataAdapterModel>()
-                    val dataCount = result.hourly.time.count()
+                    val dataCount = result.timestamp.count()
 
                     for (i in 0 until dataCount step 1) {
                         val formatterTs = DateTimeFormatter.ofPattern("HH:mm:ss")
-                        val timestamp = LocalDateTime.parse(result.hourly.time[i])
-                        val temperature = result.hourly.temperature[i].toString() + " " + result.hourlyUnits.temperature
-                        val precipProb = result.hourly.precipProb[i].toString() + " " + result.hourlyUnits.precipProb
-                        val visibility = result.hourly.visibility[i].toString() + " " + result.hourlyUnits.visibility
+                        val timestamp = LocalDateTime.parse(result.timestamp[i])
+                        val temperature = result.temperature.value[i].toString() + " " + result.temperature.unit
+                        val precipProb = result.precipProb.value[i].toString() + " " + result.precipProb.unit
+                        val visibility = result.visibility.value[i].toString() + " " + result.visibility.unit
 
                         dataList.add(WeatherDataAdapterModel(timestamp.format(formatterTs), temperature, precipProb, visibility))
                     }

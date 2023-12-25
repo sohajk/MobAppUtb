@@ -1,6 +1,6 @@
 package com.example.mobapputb.services
 
-import com.example.mobapputb.models.WeatherDataModel
+import com.example.mobapputb.networks.WeatherDataModel
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
