@@ -1,6 +1,8 @@
 package com.example.mobapputb
 
 import android.app.Application
+import com.example.mobapputb.databases.getDatabase
+import com.example.mobapputb.repositories.NoteRepository
 import com.example.mobapputb.repositories.WeatherRepository
 import com.example.mobapputb.services.ApiService
 import retrofit2.Retrofit
@@ -18,6 +20,9 @@ class MyApplication : Application() {
 
     val weatherRepository: WeatherRepository by lazy {
         WeatherRepository(apiService)
+    }
+    val noteRepository: NoteRepository by lazy {
+        NoteRepository(getDatabase(this))
     }
 
     override fun onCreate() {
