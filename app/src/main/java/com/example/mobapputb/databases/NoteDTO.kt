@@ -6,7 +6,7 @@ import com.example.mobapputb.domains.NoteDomain
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 
-@Entity(tableName = "note")
+@Entity(tableName = "notes")
 data class NoteDTO(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 1,

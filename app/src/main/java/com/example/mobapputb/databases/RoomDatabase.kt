@@ -13,19 +13,23 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    @Query("select * from note WHERE id = :id")
+    @Query("select * from notes WHERE id = :id")
     fun getNote(id: Int): Flow<NoteDTO>
 
-    @Query("select * from note")
+    @Query("select * from notes")
     fun getNotes(): Flow<List<NoteDTO>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert( note: NoteDTO)
+    fun insert(note: NoteDTO)
 }
 
-@Database(entities = [NoteDTO::class], version = 1)
+@Database(entities = [NoteDTO::class], version = 2)
 abstract class MyRoomDatabase: RoomDatabase() {
     abstract val NoteDao: NoteDao
+
+    companion object {
+        private const val NEW_VERSION = 2
+    }
 }
 
 private lateinit var INSTANCE: MyRoomDatabase
@@ -35,7 +39,9 @@ fun getDatabase(context: Context): MyRoomDatabase {
         if (!::INSTANCE.isInitialized) {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                 MyRoomDatabase::class.java,
-                "my_room_database").build()
+                "my_room_database")
+                .fallbackToDestructiveMigration() // Recreate the database if schema changed
+                .build()
         }
     }
     return INSTANCE

@@ -12,14 +12,15 @@
         tools:layout="@layout/fragment_notes" />
 
     <fragment
+        android:id="@+id/navigation_note_add"
+        android:name="com.example.mobapputb.ui.notes.NoteAddFragment"
+        android:label="@string/title_add_note"
+        tools:layout="@layout/fragment_note_add" />
+
+    <fragment
         android:id="@+id/navigation_weather"
         android:name="com.example.mobapputb.ui.weather.WeatherFragment"
         android:label="@string/title_weather"
         tools:layout="@layout/fragment_weather" />
-    <fragment
-        android:id="@+id/navigation_note_add"
-        android:name="com.example.mobapputb.ui.notes.NoteAddFragment"
-        android:label="fragment_note_add"
-        tools:layout="@layout/fragment_note_add" />
 
 </navigation>

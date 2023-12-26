@@ -1,5 +1,6 @@
 package com.example.mobapputb.repositories
 
+import android.util.Log
 import com.example.mobapputb.databases.MyRoomDatabase
 import com.example.mobapputb.databases.mapToDomain
 import com.example.mobapputb.domains.NoteDomain
@@ -22,7 +23,12 @@ class NoteRepository(
 
     suspend fun insertNote(note: NoteDomain) {
         withContext(Dispatchers.IO) {
-            database.NoteDao.insert(note.mapToDatabase())
+            try {
+                val noteDTO = note.mapToDatabase()
+                database.NoteDao.insert(noteDTO)
+            }catch (e: Exception) {
+                Log.e("NoteError", e.message!!)
+            }
         }
     }
 }

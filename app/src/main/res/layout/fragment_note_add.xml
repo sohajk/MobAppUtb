@@ -12,8 +12,57 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <EditText
+            android:id="@+id/editTextTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="@={viewModel.title}" />
+
+        <TextView
+            android:id="@+id/labelErrorTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/red_alert"
+            android:text="@={ viewModel.errorTitle }" />
+
+        <EditText
+            android:id="@+id/editTextDescription"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="10dp"
+            android:ems="10"
+            android:inputType="text"
+            android:text="@={viewModel.description}" />
+
+        <TextView
+            android:id="@+id/labelErrorDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:textColor="@color/red_alert"
+            android:text="@={ viewModel.errorDescription }" />
+
+        <TextView
+            android:id="@+id/labelInsertStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="50dp"
+            android:text="@={ viewModel.insertStatus }" />
+
         <Button
-            android:id="@+id/buttonNotes"
+            android:id="@+id/buttonAddNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:onClick="@{() -> viewModel.insertNote()}"
+            android:text="@string/button_insert_note" />
+
+        <Button
+            android:id="@+id/buttonBackToNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"

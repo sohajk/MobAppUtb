@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.mobapputb.MainActivity
 import com.example.mobapputb.R
 import com.example.mobapputb.databinding.FragmentNotesBinding
 
@@ -23,8 +24,11 @@ class NotesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        val mainActivity = requireActivity() as MainActivity
+        val repository = mainActivity.MyApp.noteRepository
+
         binding = FragmentNotesBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[NotesViewModel::class.java]
+        viewModel = ViewModelProvider(this, NoteViewModelFactory(repository))[NotesViewModel::class.java]
 
         // Set ViewModel in DataBinding
         binding.viewModel = viewModel

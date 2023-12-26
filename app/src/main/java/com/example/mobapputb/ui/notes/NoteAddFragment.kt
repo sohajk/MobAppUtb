@@ -6,10 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.mobapputb.MainActivity
 import com.example.mobapputb.R
+import com.example.mobapputb.databinding.FragmentNoteAddBinding
 
 class NoteAddFragment : Fragment() {
+
+    private lateinit var binding: FragmentNoteAddBinding
+    private lateinit var viewModel: NotesViewModel
 
     var buttonNotes: Button ?= null
 
@@ -17,15 +23,24 @@ class NoteAddFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_note_add, container, false)
+    ): View {
+        val mainActivity = requireActivity() as MainActivity
+        val repository = mainActivity.MyApp.noteRepository
+
+        binding = FragmentNoteAddBinding.inflate(inflater, container, false)
+        viewModel = ViewModelProvider(this, NoteViewModelFactory(repository))[NotesViewModel::class.java]
+
+        // Set ViewModel in DataBinding
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        buttonNotes = view.findViewById<Button>(R.id.buttonNotes)
+        buttonNotes = view.findViewById<Button>(R.id.buttonBackToNotes)
         buttonNotes?.setOnClickListener{ findNavController().navigate(R.id.navigation_home) }
     }
 
