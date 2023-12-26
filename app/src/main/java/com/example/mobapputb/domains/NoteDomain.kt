@@ -12,7 +12,9 @@ data class NoteDomain(
 )
 
 fun NoteDomain.mapToDatabase(): NoteDTO {
+
     return NoteDTO(
+        id = this.id,
         timestamp = this.timestamp.format(DateTimeFormatter.ISO_DATE_TIME),
         title = this.title,
         description = this.description

@@ -6,19 +6,21 @@ import com.example.mobapputb.databases.mapToDomain
 import com.example.mobapputb.domains.NoteDomain
 import com.example.mobapputb.domains.mapToDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class NoteRepository(
     private val database: MyRoomDatabase
 ) {
-    fun getNote(id: Int): Flow<NoteDomain> {
-        return database.NoteDao.getNote(id).map { it.mapToDomain() }
+    suspend fun getNote(id: Int): NoteDomain? {
+        return withContext(Dispatchers.IO) {
+            database.NoteDao.getNote(id)?.mapToDomain()
+        }
     }
 
-    fun getNotes(): Flow<List<NoteDomain>> {
-        return database.NoteDao.getNotes().map { originalList -> originalList.map { it.mapToDomain()} }
+    suspend fun getNotes(): List<NoteDomain> {
+        return withContext(Dispatchers.IO) {
+            database.NoteDao.getNotes().map { it.mapToDomain()}
+        }
     }
 
     suspend fun insertNote(note: NoteDomain) {

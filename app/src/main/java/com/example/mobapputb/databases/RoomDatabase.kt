@@ -8,28 +8,23 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NoteDao {
 
     @Query("select * from notes WHERE id = :id")
-    fun getNote(id: Int): Flow<NoteDTO>
+    fun getNote(id: Int): NoteDTO?
 
     @Query("select * from notes")
-    fun getNotes(): Flow<List<NoteDTO>>
+    fun getNotes(): List<NoteDTO>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(note: NoteDTO)
 }
 
-@Database(entities = [NoteDTO::class], version = 2)
+@Database(entities = [NoteDTO::class], version = 1, exportSchema = false)
 abstract class MyRoomDatabase: RoomDatabase() {
     abstract val NoteDao: NoteDao
-
-    companion object {
-        private const val NEW_VERSION = 2
-    }
 }
 
 private lateinit var INSTANCE: MyRoomDatabase
@@ -40,7 +35,7 @@ fun getDatabase(context: Context): MyRoomDatabase {
             INSTANCE = Room.databaseBuilder(context.applicationContext,
                 MyRoomDatabase::class.java,
                 "my_room_database")
-                .fallbackToDestructiveMigration() // Recreate the database if schema changed
+                //.fallbackToDestructiveMigration() // Recreate the database if schema changed
                 .build()
         }
     }

@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter
 @Entity(tableName = "notes")
 data class NoteDTO(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 1,
+    val id: Int?,
     val timestamp: String,
     val title: String,
     val description: String
