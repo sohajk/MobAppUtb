@@ -11,12 +11,11 @@ import androidx.room.RoomDatabase
 
 @Dao
 interface NoteDao {
-
-    @Query("select * from notes WHERE id = :id")
-    fun getNote(id: Int): NoteDTO?
-
-    @Query("select * from notes")
+    @Query("SELECT * FROM notes")
     fun getNotes(): List<NoteDTO>
+
+    @Query("DELETE FROM notes WHERE id = :id")
+    fun deleteNote(id: Int)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(note: NoteDTO)

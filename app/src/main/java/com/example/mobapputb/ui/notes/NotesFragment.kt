@@ -13,11 +13,13 @@ import com.example.mobapputb.MainActivity
 import com.example.mobapputb.R
 import com.example.mobapputb.databinding.FragmentNotesBinding
 import com.example.mobapputb.viewAdapters.NoteDataAdapter
+import com.example.mobapputb.viewAdapters.NoteRecyclerViewListener
 
-class NotesFragment : Fragment() {
+class NotesFragment : Fragment(), NoteRecyclerViewListener {
 
     private lateinit var binding: FragmentNotesBinding
     private lateinit var viewModel: NotesViewModel
+    private lateinit var noteAdapter: NoteDataAdapter
 
     var buttonAddNote: Button ?= null
 
@@ -39,12 +41,12 @@ class NotesFragment : Fragment() {
         // Set up RecyclerView and adapter
         val view = inflater.inflate(R.layout.fragment_notes, container, false)
 
-        val myAdapter = NoteDataAdapter(viewModel.noteAdapterData.value!!)
-        binding.recyclerViewNoteData.adapter = myAdapter
+        noteAdapter = NoteDataAdapter(viewModel.noteAdapterData.value!!, this)
+        binding.recyclerViewNoteData.adapter = noteAdapter
 
         // Update the adapter with the new list
         viewModel.noteAdapterData.observe(viewLifecycleOwner, Observer { newList ->
-            binding.recyclerViewNoteData.adapter = NoteDataAdapter(newList)
+            binding.recyclerViewNoteData.adapter = NoteDataAdapter(newList, this)
         })
 
         return binding.root
@@ -57,6 +59,10 @@ class NotesFragment : Fragment() {
         buttonAddNote?.setOnClickListener{ findNavController().navigate(R.id.navigation_note_add) }
 
         viewModel.loadNoteList()
+    }
+
+    override fun onNoteDeleteClick(position: Int) {
+        viewModel.deleteNote(position)
     }
 
     override fun onDestroyView() {

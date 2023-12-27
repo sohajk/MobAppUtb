@@ -11,17 +11,18 @@ import kotlinx.coroutines.withContext
 class NoteRepository(
     private val database: MyRoomDatabase
 ) {
-    suspend fun getNote(id: Int): NoteDomain? {
-        return withContext(Dispatchers.IO) {
-            database.NoteDao.getNote(id)?.mapToDomain()
-        }
-    }
-
     suspend fun getNotes(): List<NoteDomain> {
         return withContext(Dispatchers.IO) {
             database.NoteDao.getNotes().map { it.mapToDomain()}
         }
     }
+
+    suspend fun deleteNote(id: Int) {
+        withContext(Dispatchers.IO) {
+            database.NoteDao.deleteNote(id)
+        }
+    }
+
 
     suspend fun insertNote(note: NoteDomain) {
         withContext(Dispatchers.IO) {
