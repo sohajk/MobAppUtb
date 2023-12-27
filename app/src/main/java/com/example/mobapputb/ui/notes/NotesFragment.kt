@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.mobapputb.MainActivity
 import com.example.mobapputb.R
 import com.example.mobapputb.databinding.FragmentNotesBinding
+import com.example.mobapputb.viewAdapters.NoteDataAdapter
 
 class NotesFragment : Fragment() {
 
@@ -34,6 +36,17 @@ class NotesFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        // Set up RecyclerView and adapter
+        val view = inflater.inflate(R.layout.fragment_notes, container, false)
+
+        val myAdapter = NoteDataAdapter(viewModel.noteAdapterData.value!!)
+        binding.recyclerViewNoteData.adapter = myAdapter
+
+        // Update the adapter with the new list
+        viewModel.noteAdapterData.observe(viewLifecycleOwner, Observer { newList ->
+            binding.recyclerViewNoteData.adapter = NoteDataAdapter(newList)
+        })
+
         return binding.root
     }
 
@@ -42,6 +55,8 @@ class NotesFragment : Fragment() {
 
         buttonAddNote = view.findViewById<Button>(R.id.buttonAddNote)
         buttonAddNote?.setOnClickListener{ findNavController().navigate(R.id.navigation_note_add) }
+
+        viewModel.loadNoteList()
     }
 
     override fun onDestroyView() {
