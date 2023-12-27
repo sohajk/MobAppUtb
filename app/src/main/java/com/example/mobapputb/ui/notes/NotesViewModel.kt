@@ -29,7 +29,7 @@ class NotesViewModel(private val repository: NoteRepository) : ViewModel() {
             viewModelScope.launch(Dispatchers.IO) {
                 val notes = repository.getNotes().toList()
                 val dataCount = notes.count()
-                val dataList = mutableListOf<NoteDataAdapterModel>()
+                val dataList = _noteDataAdapter.value.orEmpty().toMutableList()
                 val formatterTs = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
 
                 for (i in 0 until dataCount step 1) {
@@ -44,6 +44,21 @@ class NotesViewModel(private val repository: NoteRepository) : ViewModel() {
                 }
 
                 _noteDataAdapter.postValue(dataList)
+            }
+        } catch (e: Exception) {
+            Log.e("NoteError", e.message!!)
+        }
+    }
+
+    fun deleteNote(noteId: Int) {
+        val dataList = _noteDataAdapter.value.orEmpty().toMutableList()
+        val noteToDelete = dataList[noteId]
+        dataList.remove(noteToDelete)
+        _noteDataAdapter.value = dataList
+
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
+                repository.deleteNote(noteToDelete.id!!)
             }
         } catch (e: Exception) {
             Log.e("NoteError", e.message!!)
