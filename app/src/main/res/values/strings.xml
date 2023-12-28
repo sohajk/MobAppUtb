@@ -6,4 +6,6 @@
     <string name="button_add_note">+ Add a new note</string>
     <string name="button_insert_note">Insert note</string>
     <string name="button_back_to_notes">Back to notes list</string>
+    <string name="placeholder_latitude">Latitude</string>
+    <string name="placeholder_longitude">Longitude</string>
 </resources>

@@ -29,31 +29,52 @@ class WeatherViewModel(private val application: Application, private val reposit
     private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(application)
     private val _currentLocation = MutableLiveData<Location>()
 
-    private val _latitude = MutableLiveData<Float>().apply { value = 0f }
-    private val _longitude = MutableLiveData<Float>().apply { value = 0f }
-    private val _statusMsg = MutableLiveData<String>().apply { value = "" }
-    private val _weatherDataAdapter = MutableLiveData<List<WeatherDataAdapterModel>>().apply { value = emptyList<WeatherDataAdapterModel>() }
+    val latitude = MutableLiveData<Float?>()
+    val longitude = MutableLiveData<Float?>()
 
-    val latitude: LiveData<Float> get() = _latitude
-    val longitude: LiveData<Float> get() = _longitude
-    val statusMsg: LiveData<String> get() = _statusMsg
+    val statusMsgLatitude = MutableLiveData<String?>()
+    val statusMsgLongitude = MutableLiveData<String?>()
+    val statusMsg = MutableLiveData<String?>()
+
+    private val _weatherDataAdapter = MutableLiveData<List<WeatherDataAdapterModel>>().apply { value = emptyList<WeatherDataAdapterModel>() }
     val weatherAdapterData: LiveData<List<WeatherDataAdapterModel>> get() = _weatherDataAdapter
 
     fun getWeatherData() {
-        if (_latitude.value == null || _longitude.value == null) {
-            _statusMsg.value = "Please enter coordinates"
+        var errorCount = 0;
+
+        if (latitude.value == null) {
+            statusMsgLatitude.value = "Value is required"
+            errorCount++
+        } else if (latitude.value!! < -90 || latitude.value!! > 90) {
+            statusMsgLatitude.value = "Value needs to be between -90 and 90"
+            errorCount++;
+        } else {
+            statusMsgLatitude.value = null
+        }
+
+        if (longitude.value == null) {
+            statusMsgLongitude.value = "Value is required"
+            errorCount++;
+        } else if (longitude.value!! < -180 || longitude.value!! > 180) {
+            statusMsgLongitude.value = "Value needs to be between -180 and 80"
+            errorCount++;
+        } else {
+            statusMsgLongitude.value = null
+        }
+
+        if (errorCount != 0) {
             return
         }
 
-        _statusMsg.value = "Loading"
+        statusMsg.value = "Loading"
         try {
             viewModelScope.launch(Dispatchers.IO) {
-                val result = repository.getWeatherPack(_latitude.value!!, _longitude.value!!, true, true, true)
+                val result = repository.getWeatherPack(latitude.value!!, longitude.value!!, true, true, true)
 
                 if (result != null) {
                     val dataList = mutableListOf<WeatherDataAdapterModel>()
                     val dataCount = result.timestamp.count()
-                    val formatterTs = DateTimeFormatter.ofPattern("HH:mm:ss")
+                    val formatterTs = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
 
                     for (i in 0 until dataCount step 1) {
                         val timestamp = LocalDateTime.parse(result.timestamp[i])
@@ -71,11 +92,11 @@ class WeatherViewModel(private val application: Application, private val reposit
 
                 val now = LocalDateTime.now()
                 val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-                _statusMsg.postValue("Updated: " + now.format(formatter))
+                statusMsg.postValue("Updated: " + now.format(formatter))
             }
         } catch (e: Exception) {
             Log.e("WeatherError",e.message!!)
-            _statusMsg.postValue("Error when requesting weather data")
+            statusMsg.postValue("Error when requesting weather data")
         }
     }
 
@@ -98,8 +119,8 @@ class WeatherViewModel(private val application: Application, private val reposit
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 location?.let {
-                    _latitude.value = location.latitude.toFloat()
-                    _longitude.value = location.longitude.toFloat()
+                    latitude.value = location.latitude?.toFloat()
+                    longitude.value = location.longitude?.toFloat()
                     _currentLocation.value = it
                 }
             }

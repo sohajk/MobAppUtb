@@ -25,6 +25,8 @@ class NotesViewModel(private val repository: NoteRepository) : ViewModel() {
     val noteAdapterData: LiveData<List<NoteDataAdapterModel>> get() = _noteDataAdapter
 
     fun loadNoteList() {
+        _noteDataAdapter.value = emptyList<NoteDataAdapterModel>()
+
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 val notes = repository.getNotes().toList()

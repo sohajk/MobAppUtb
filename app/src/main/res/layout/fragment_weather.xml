@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="com.example.mobapputb.ui.weather.WeatherViewModel" />
+        <import type="com.example.mobapputb.viewAdapters.StringToFloatConverter" />
     </data>
 
     <LinearLayout
@@ -20,19 +21,37 @@
             android:id="@+id/editTextNumberLatitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="5dp"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text="@{String.valueOf(viewModel.latitude)}" />
+            android:hint="@string/placeholder_latitude"
+            android:text="@={StringToFloatConverter.floatToString(viewModel.latitude)}" />
+
+        <TextView
+            android:id="@+id/labelStatusMsgLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/red_alert"
+            android:text="@{ viewModel.statusMsgLatitude }" />
 
         <EditText
             android:id="@+id/editTextNumberLongitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="5dp"
             android:ems="10"
             android:inputType="numberDecimal"
-            android:text="@{String.valueOf(viewModel.longitude)}" />
+            android:hint="@string/placeholder_longitude"
+            android:text="@={StringToFloatConverter.floatToString(viewModel.longitude)}" />
+
+        <TextView
+            android:id="@+id/labelStatusMsgLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/red_alert"
+            android:text="@{ viewModel.statusMsgLongitude }" />
 
         <Button
             android:id="@+id/buttonLocation"
