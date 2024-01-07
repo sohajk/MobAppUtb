@@ -19,6 +19,7 @@
             android:layout_marginBottom="5dp"
             android:ems="10"
             android:inputType="text"
+            android:hint="@string/placeholder_title"
             android:text="@={viewModel.title}" />
 
         <TextView
@@ -32,10 +33,11 @@
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:ems="10"
             android:inputType="text"
+            android:hint="@string/placeholder_description"
             android:text="@={viewModel.description}" />
 
         <TextView
